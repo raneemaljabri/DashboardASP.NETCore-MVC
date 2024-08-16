@@ -1,0 +1,174 @@
+﻿@model ProductsDetails
+
+@{
+    ViewData["Title"] = "Products Details Page";
+}
+
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success mt-2">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger  mt-2">@TempData["ErrorMessage"]</div>
+}
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col text-center">
+            <h1 class="display-4 "><span class="badge bg-light bordred text-dark"> تفاصيل المنتج</span> </h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-success" onclick="showProductsDeatilsModal()">  <i class="fs-4 bi-cart-plus p-2"></i> أضافة تفاصيل المنتج </button>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" id="Add-Deatils-Item">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header " style="direction:ltr">
+                <h5 class="modal-title"> اضافة  تفاصيل المنتج  </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="CreateDeatils" asp-controller="ProductsDetails" method="post" enctype="multipart/form-data">
+                    <div class="row mb-4">
+                        <div class="col-12 mt-2">
+                            <label class="form-label">اختر المنتج</label>
+                            <select class="form-select" style="direction:ltr" asp-for="ProductId" id="ProductId">
+                                @foreach (var item in ViewBag.products)
+                                {
+                                    <option value="@item.Id"> @item.Name</option>
+
+                                }
+                            </select>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <label class="form-label">صورة المنتج</label>
+                            <input type="file" name="photo" class="form-control" />
+                        </div>
+
+                        <div class="col-6 mt-2">
+                            <label asp-for="Price" class="form-label">سعر المنتج</label>
+                            <input type="number" asp-for="Price" class="form-control" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-6 mt-2">
+                            <label asp-for="Qty" class="form-label">عدد المنتج</label>
+                            <input type="number" asp-for="Qty" class="form-control" />
+                            <span asp-validation-for="Qty" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 mt-2">
+                            <label asp-for="Color" class="form-label">لون المنتج</label>
+                            <input type="text" asp-for="Color" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-start">
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">اضافة</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء الأمر </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row mt-4 text-center" style="direction:rtl">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th class="bg-success text-white">#</th>
+                            <th class="bg-success text-white">اسم المنتج</th>
+                            <th class="bg-success text-white">سعر المنتج</th>
+                            <th class="bg-success text-white">لون المنتج</th>
+                            <th class="bg-success text-white">كمية المنتج</th>
+                            <th class="bg-success text-white">صورة المنتج</th>
+                            <th class="bg-success text-white" colspan="2">الاجراء </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.productsDetails)
+                        {
+                            <tr>
+                                <td>@item.Product_Id</td>
+                                <td>@item.Name</td>
+                                <td>@item.Price</td>
+                                <td>@item.Color</td>
+                                <td>@item.Qty</td>
+                                <td><img src="@item.Images" width="70" height="70" /></td>
+                                <td>
+                                    <button type="button" class="btn btn-sm " onclick="showEditModel(@item.Product_Id)"><i class="bi bi-pencil-square text-warning"></i> </button>
+
+                                </td>
+                                <td>
+                                    <a asp-action="DeleteProductsDetails" asp-controller="ProductsDetails" asp-route-product_id="@item.Product_Id"
+                                       onclick="return confirm('Are you sure you want to delete this item?');">
+                                        <i class="bi bi-trash text-danger"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" id="ُEdit-Item">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header " style="direction:ltr">
+                <h5 class="modal-title"> تعديل المنتج  </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="UpdateProductsDetails" asp-controller="ProductsDetails" method="post" enctype="multipart/form-data" style="direction:rtl">
+                    <div class="row mb-4">
+                        <input type="hidden" name="ProductId" id="id" asp-for="Id" />
+
+                        <div class="col-sm-12">
+                            <img id="imgPreview" alt="Product Image" class="img-fluid" height="240" width="240" />
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="img" class="form-label">صورة المنتج</label>
+                            <input type="file" name="photo" class="form-control" />
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="price" class="form-label">سعر المنتج</label>
+                            <input type="number" id="price" asp-for="Price" class="form-control" />
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="qty" class="form-label">عدد المنتج</label>
+                            <input type="number" id="qty" asp-for="Qty" class="form-control" />
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="color" class="form-label">لون المنتج</label>
+                            <input type="text" id="color" asp-for="Color" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-start">
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">تحديث</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء الأمر </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

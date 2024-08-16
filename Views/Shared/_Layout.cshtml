@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Dashboard</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Dashboard.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Cairo' rel='stylesheet'>
+
+    <style>
+        .boxhead a {
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+        * {
+            font-family: cairo;
+        }
+    </style>
+
+
+
+
+
+
+</head>
+<body dir="rtl">
+    <header>
+
+        <nav class="navbar navbar-expand-lg bg-dark bg-body-dark text-white">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Dashboard</a>
+                <button data-mdb-collapse-init
+                        class="navbar-toggler"
+                        type="button"
+                        data-mdb-target="#navbarNav"
+                        aria-controls="navbarNav"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+
+            </div>
+            <div class="d-flex justify-content-center align-items-center">
+                @ViewBag.User <i class="bi bi-person-circle p-2"></i>
+            </div>
+
+        </nav>
+    </header>
+
+    <main>
+        <div class="container-fluid">
+            <div class="row flex-nowrap">
+
+                <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                    <div class=" text-white min-vh-100">
+                        <a href="/" class="text-center text-white text-decoration-none ">
+                            <span class="fs-5 d-none d-sm-inline p-5">لوحة التحكم</span>
+                        </a>
+                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                            <li class="nav-item">
+                                <a asp-action="Index" class="nav-link align-middle px-0">
+                                    <i class="fs-4 bi-house p-2"></i> <span class="ms-1 d-none d-sm-inline text-white">الرئيسية</span>
+                                </a>
+                            </li>
+                            <li>
+
+                            <li>
+                                <a asp-action="AddNewItem" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-cart-plus p-2"></i> <span class="ms-1 d-none d-sm-inline text-white">إضافة منتج جديد </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-action="ProductsDetails" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-file-plus p-2"></i> <span class="ms-1 d-none d-sm-inline text-white"> إضافة تفاصيل المنتج </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-action="Damagedproducts" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-table p-2"></i> <span class="ms-1 d-none d-sm-inline text-white">المنتجات التالفة</span>
+                                </a>
+                            </li>
+                            <li>
+
+                            </li>
+
+                            <li>
+                                <a href="#" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-people p-2"></i> <span class="ms-1 d-none d-sm-inline text-white">الزبائن</span>
+                                </a>
+                            </li>
+                        </ul>
+
+
+                    </div>
+                </div>
+
+
+                <div class="col ">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - Dashboard - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
